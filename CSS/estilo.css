@@ -1,0 +1,103 @@
+body{
+	background-color:#fff6f1;
+	font-family:"Helvetica",Arial;
+}
+nav ul li{
+	display:inline-block;
+	margin-right:20px;
+	color:#1d1d1d1;
+	cursor:pointer;
+	padding:5px;
+}
+nav ul li a{
+	text-decoration:none;
+}
+#principal{
+	
+	width:1200px;
+	margin:0 auto;
+	text-align:center;
+}
+h1{
+	color:#e44e2d;
+}
+#textoPr{
+	width: 600px;
+	height: 300px;
+	/* [disabled]background-color:#1d1d1d; */
+	color: #000;
+	margin: 0 auto;
+	text-align: left;
+	border-radius: 20px;
+	padding: 20px;
+	box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+}
+#tablaPr{
+	width:800px;
+	background-color:#1d1d1d;
+	text-align:center;
+	margin:0 auto;
+	text-color:#e44e2d;
+	
+}
+
+#opcion {
+	margin-bottom: 10px;
+}
+a{
+	color:#e44e2d;
+	font-weight:bold;
+}
+label{
+	display:block;
+}
+#btnGuardar{
+	border:none;
+	background-color:#FFF;
+	color:#e44e2d;
+	padding:4px;
+	margin:20px;
+	cursor:pointer;
+}
+#btnActualizar{
+	border:none;
+	background-color:#FFF;
+	color:#e44e2d;
+	padding:4px;
+	margin:20px;
+	cursor:pointer;
+}
+#btnEliminar{
+	border:none;
+	background-color:#FFF;
+	color:#e44e2d;
+	padding:4px;
+	margin:20px;
+	cursor:pointer;
+}
+#consulta{
+	width:100%;
+	height:100%;
+	border:1px solid;
+	border-collapse:collapse;
+	
+}
+#consulta td{
+	
+	border:1px solid;
+	text-align:center;
+	color:#FFF;
+}
+#consulta tr:hover{
+	
+	background-color:#ff8000;
+	cursor:pointer;
+}
+#consulta th{
+	color:#e44e2d;
+	
+}
+.loginBox{
+	text-align: center;
+	margin-top: 50px;
+}

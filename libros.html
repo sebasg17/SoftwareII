@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset='utf-8'>
+		<link href="CSS/estilo.css" rel="stylesheet" >
+	</head>
+	<body>
+		<div id="principal">
+			<header>
+				<hgroup>
+					<h1> SOFWARE2.COM </h1>
+				</hgroup>
+				<nav>
+					<ul>
+						<li><a href='index.html'>INICIO</a></li>
+						<li><a href='libros.html'>LIBROS</a></li>
+						<li><a href='socios.html'>SOCIOS</a></li>
+						<li><a href='prestamos.html'>PRESTAMOS</a></li>
+						<li><a href='informes.html'>INFORMES</a></li>
+					</ul>
+				</nav>
+			</header>
+			<section>
+				<div id="textoPr">
+					<hgroup>
+						<h1> Libros</h1>
+					</hgroup>
+					<form>
+						<label for='libro'>Libro: </label>
+						<input type='number' id='libro' placeholder='id del libro' required min='0'>
+						<label for='titulo'>Titulo: </label>
+						<input type='text' id='titulo' placeholder='titulo del libro' required>
+						<label for='autor'>Autor: </label>
+						<input type='text' id='autor' placeholder='autor del libro'>
+						<label for='numpaginas'>Num. Paginas: </label>
+						<input type='number' id='numpaginas' placeholder='numero de paginas del libro' min='0'>
+						<input type='submit' value='Guardar' id='btnGuardar'>
+						<input type='submit' value='Actualizar' id='btnActualizar'>
+						<input type='submit' value='Eliminar' id='btnEliminar'>
+					</form>
+					
+				</div>
+			</section>
+			
+		</div>
+		<div>
+			<!-- <table align="center" border="1">
+				<tr>
+				<td>Libro</td>
+				<td>Titulo</td>
+				<td>Autor</td>
+				<td>Num. Paginas</td>
+				</tr> -->
+				<?php 
+						
+						$stid = oci_parse($conn,'SELECT * FROM libro');
+						oci_execute($stid);
+						echo "<table border = '1'>\n"; 
+						echo "<tr><td>Libro</td><td>Titulo</td><td>Autor</td><td>Num. Paginas</td></tr> \n"; 
+						while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+							   echo "<tr>\n";
+								foreach ($row as $item) {
+									echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
+								}
+								echo "</tr>\n";
+						}
+						echo "</table>\n";
+					?> 
+    
+			<!-- </table> -->
+		</div>
+	</body>
+</html>

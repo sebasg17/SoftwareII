@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title>Oracle demo</title>
+	
+</head>
+<body>
+<?php 
+						$conn = oci_connect('didier','unillanos','localhost/XE'); 
+						$stid = oci_parse($conn,'SELECT * FROM libro');
+						oci_execute($stid);
+						echo "<table border = '1'>\n"; 
+						echo "<tr><td>Libro</td><td>Titulo</td><td>Autor</td><td>Num. Paginas</td></tr> \n"; 
+						while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+							   echo "<tr>\n";
+								foreach ($row as $item) {
+									echo "    <td>" . ($item !== null ? htmlentities($item, ENT_QUOTES) : "") . "</td>\n";
+								}
+								echo "</tr>\n";
+						}
+						echo "</table>\n";
+					?>
+
+
+    
+
+
+</body>
+</html>
