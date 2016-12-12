@@ -27,6 +27,7 @@ function Errores(){
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -46,7 +47,7 @@ function Errores(){
 								while($cont!=0){
 									if($row=oci_fetch_row($socios)){
 										if($row[0]==$socio){
-											$stid = oci_parse($conn,"delete from socio where socio=$row[0]");
+											$stid = oci_parse($conn,"delete from GUTY17.socio where socio=$row[0]");
 											oci_execute($stid);
 											echo 'socio eliminado...';
 											break;

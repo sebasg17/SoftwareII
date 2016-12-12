@@ -1,7 +1,13 @@
 <!DOCTYPE html>
-<?php 
-	require 'ClaseConexion.php';
-
+<?php
+require ('ClaseConexion.php');
+require ('ControlUsuarios.php');
+$ctrlUsuarios = ControlUsuarios::getInstance();
+$isL = $ctrlUsuarios->isLogueado();
+if (!$isL){
+	$_SESSION['mensaje'] = 'Inicie sesión para ver esta página';
+	header("Location: login.php");
+}
 ?>
 <html lang="es">
 	<head>
@@ -21,6 +27,7 @@
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>

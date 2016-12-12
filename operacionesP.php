@@ -27,6 +27,7 @@ function Errores(){
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -89,10 +90,10 @@ function Errores(){
 						</tr> 
 						<?php 
 						if (isset($_POST["btnActualizarP"])|| isset($_POST["btnGuardarP"])||isset($_POST["btnEliminarP"])||isset($_POST['eliminarP'])){
-							$result = oci_parse($conn,'SELECT libro.titulo,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM prestamo,socio,libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio order by prestamo.fprestamo');
+							$result = oci_parse($conn,'SELECT libro.titulo,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM GUTY17.prestamo,GUTY17.socio,GUTY17.libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio order by prestamo.fprestamo');
 						}if(isset($_POST["btnBuscarP"])){
 								$buscar=$_POST["buscar"];
-								$result=oci_parse($conn,"select libro.titulo,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM prestamo,socio,libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio and UPPER(libro.titulo) LIKE UPPER('%$buscar%')");
+								$result=oci_parse($conn,"select libro.titulo,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM GUTY17.prestamo,GUTY17.socio,GUTY17.libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio and UPPER(libro.titulo) LIKE UPPER('%$buscar%')");
 							}
 								oci_execute($result);
 								while ($row = oci_fetch_row($result)) {

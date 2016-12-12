@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <?php
 require ('ClaseConexion.php');
+require ('ControlUsuarios.php');
+$ctrlUsuarios = ControlUsuarios::getInstance();
+$isL = $ctrlUsuarios->isLogueado();
+if (!$isL){
+	$_SESSION['mensaje'] = 'Inicie sesión para ver esta página';
+	header("Location: login.php");
+}
 ?>
 <html lang="es">
 	<head>
@@ -22,6 +29,7 @@ require ('ClaseConexion.php');
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -63,7 +71,7 @@ require ('ClaseConexion.php');
 						</tr> 
 						<?php 
 								$conexion = Conexion::getInstance();
-								$result = oci_parse($conexion->getConexion(),'SELECT libro.libro,libro.titulo,socio.socio,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM prestamo,socio,libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio order by prestamo.fprestamo');
+								$result = oci_parse($conexion->getConexion(),'SELECT libro.libro,libro.titulo,socio.socio,socio.nombre,prestamo.fprestamo,prestamo.fdevolucion FROM GUTY17.prestamo,GUTY17.socio,GUTY17.libro where libro.libro=prestamo.libro and socio.socio=prestamo.socio order by prestamo.fprestamo');
 								oci_execute($result);
 								while ($row = oci_fetch_row($result)) {
 									   echo" <tr>

@@ -3,8 +3,9 @@
 require ('ClaseConexion.php');
 require ('ControlUsuarios.php');
 $ctrlUsuarios = ControlUsuarios::getInstance();
-if (!$ctrlUsuarios->estaLogueado()){
-	$_SESSION['mensaje'] = $ctrlUsuarios->getUsuarioLogueado();
+$isL = $ctrlUsuarios->isLogueado();
+if (!$isL){
+	$_SESSION['mensaje'] = 'Inicie sesión para ver esta página';
 	header("Location: login.php");
 }
 ?>
@@ -71,6 +72,7 @@ if (!$ctrlUsuarios->estaLogueado()){
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -117,7 +119,7 @@ if (!$ctrlUsuarios->estaLogueado()){
 						</tr> 
 						<?php 
 								$conexion = Conexion::getInstance();
-								$result = oci_parse($conexion->getConexion(),'SELECT * FROM libro order by libro');
+								$result = oci_parse($conexion->getConexion(),'SELECT * FROM GUTY17.libro order by libro');
 								oci_execute($result);
 								while ($row = oci_fetch_row($result)) {
 									   echo" <tr>

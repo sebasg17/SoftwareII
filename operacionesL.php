@@ -28,6 +28,7 @@ function Errores(){
 						<li><a href='socios.php'>SOCIOS</a></li>
 						<li><a href='prestamos.php'>PRESTAMOS</a></li>
 						<li><a href='informes.php'>INFORMES</a></li>
+						<li><a href='cerrar_sesion.php'>Cerrar Sesión</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -82,11 +83,11 @@ function Errores(){
 						<?php 
 							
 							if (isset($_POST["btnActualizarL"])|| isset($_POST["btnGuardarL"])||isset($_POST["btnEliminarL"])||isset($_POST['eliminarL'])){
- 								$result = oci_parse($conn,'SELECT * FROM libro order by libro');
+ 								$result = oci_parse($conn,'SELECT * FROM GUTY17.libro order by libro');
 																
 							}if(isset($_POST["btnBuscarL"])){
 								$buscar=$_POST["buscar"];
-								$result=oci_parse($conn,"select * from libro where UPPER(titulo) LIKE UPPER('%$buscar%')");
+								$result=oci_parse($conn,"select * from GUTY17.libro where UPPER(titulo) LIKE UPPER('%$buscar%')");
 							}
 							oci_execute($result);
 							while ($row = oci_fetch_row($result)) {

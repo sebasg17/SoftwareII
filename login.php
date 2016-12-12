@@ -16,9 +16,17 @@
 				<div class="loginBox">
 					<b>
 					<?php 
-						//session_start(); 
+						session_start(); 
 						if (isset($_SESSION['mensaje'])){
 							echo $_SESSION['mensaje']; 
+						}
+					?>
+					</b>
+					<br>
+					<b>
+					<?php 
+						if (isset($_SESSION['mensaje2'])){
+							echo $_SESSION['mensaje2']; 
 						}
 					?>
 					</b>

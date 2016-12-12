@@ -1,6 +1,6 @@
 
 <?php
-
+error_reporting(E_ALL ^ E_NOTICE);
 class Conexion
 {
 
@@ -16,14 +16,14 @@ class Conexion
     //Constructor privado
     private function __construct()
     {
+        //guty17 admin123
         $this->_sNombreBD = 'localhost/XE';
-        $this->_sUsuario  = 'guty17';
-        $this->_sClave    = 'admin123';
     }
 
     // Clone no permitido
     public function __clone()
     {}
+
 
     // Método singleton
     public static function getInstance()
@@ -38,39 +38,49 @@ class Conexion
 
     private function conectar()
     {
+        session_start(); 
+        if (!is_null($_SESSION['usuario']) && !is_null($_SESSION['password'])){
+                $this->_sUsuario  = $_SESSION['usuario'];
+                $this->_sClave    = $_SESSION['password'];
+        }
 
         $this->conexion = null;
 
-        $this->conexion =
-            oci_connect($this->_sUsuario, $this->_sClave, $this->_sNombreBD);
+        $this->conexion = oci_connect($this->_sUsuario, $this->_sClave, $this->_sNombreBD);
 
         if (is_resource($this->conexion)) {
             //self::$sMensaje = "Conexion exitosa!<br/>";
         } else {
-            header('Location: error.php');
-
+            $this->conexion = null;
         }
 
         return $this->conexion;
     }
 
     public function login($usuario, $password){
-        $result = oci_parse($this->conexion,"SELECT * FROM USUARIO WHERE USUARIO='$usuario' AND PASSWORD='$password'");
-        oci_execute($result);
-        return oci_fetch_row($result);
+        $this->_sUsuario  = $usuario;
+        $this->_sClave    = $password;
+        $this->conectar();
+        return $this->conexion !== null;
     }
+
+    // public function login($usuario, $password){
+    //     $result = oci_parse($this->conexion,"SELECT * FROM USUARIO WHERE USUARIO='$usuario' AND PASSWORD='$password'");
+    //     oci_execute($result);
+    //     return oci_fetch_row($result);
+    // }
 
     //insertar
     public function Insertar($tabla, $argumentos)
     {
         if ($tabla == "libro") {
-            $stid = oci_parse($this->conexion, "insert into $tabla(libro,titulo,autor,numpag) values('$argumentos[0]','$argumentos[1]','$argumentos[2]','$argumentos[3]')");
+            $stid = oci_parse($this->conexion, "insert into GUTY17.$tabla(libro,titulo,autor,numpag) values('$argumentos[0]','$argumentos[1]','$argumentos[2]','$argumentos[3]')");
         }
         if ($tabla == "socio") {
-            $stid = oci_parse($this->conexion, "insert into $tabla(socio,nombre,telefono,ingreso) values ('$argumentos[0]','$argumentos[1]','$argumentos[2]',to_date('$argumentos[3]','dd/mm/yyyy'))");
+            $stid = oci_parse($this->conexion, "insert into GUTY17.$tabla(socio,nombre,telefono,ingreso) values ('$argumentos[0]','$argumentos[1]','$argumentos[2]',to_date('$argumentos[3]','dd/mm/yyyy'))");
         }
         if ($tabla == "prestamo") {
-            $stid = oci_parse($this->conexion, "insert into $tabla(libro,socio,fprestamo,fdevolucion) 						   values('$argumentos[0]','$argumentos[1]',to_date('$argumentos[2]','dd/mm/yyyy'),to_date('$argumentos[3]','dd/mm/yyyy'))");
+            $stid = oci_parse($this->conexion, "insert into GUTY17.$tabla(libro,socio,fprestamo,fdevolucion) 						   values('$argumentos[0]','$argumentos[1]',to_date('$argumentos[2]','dd/mm/yyyy'),to_date('$argumentos[3]','dd/mm/yyyy'))");
         }
         if (!oci_execute($stid)) {
             return "$tabla ya existe";
@@ -83,13 +93,13 @@ class Conexion
     public function Eliminar($tabla, $argumentos)
     {
         if ($tabla == "libro") {
-            $stid = oci_parse($this->conexion, "delete from libro where $tabla=$argumentos");
+            $stid = oci_parse($this->conexion, "delete from GUTY17.libro where $tabla=$argumentos");
         }
         if ($tabla == "socio") {
-            $stid = oci_parse($this->conexion, "delete from socio where $tabla=$argumentos");
+            $stid = oci_parse($this->conexion, "delete from GUTY17.socio where $tabla=$argumentos");
         }
         if ($tabla == "prestamo") {
-            $stid = oci_parse($this->conexion, "delete from prestamo where libro=$argumentos[0] and socio=$argumentos[1]");
+            $stid = oci_parse($this->conexion, "delete from GUTY17.prestamo where libro=$argumentos[0] and socio=$argumentos[1]");
         }
         $consulta = $this->Consulta($tabla);
         $mensaje  = $this->prueba($consulta, $argumentos, $stid);
@@ -101,13 +111,13 @@ class Conexion
     {
 
         if ($tabla == "libro") {
-            $stid = oci_parse($this->conexion, "update $tabla set titulo='$argumentos[1]',autor='$argumentos[2]',numpag='$argumentos[3]' where libro=$argumentos[0] ");
+            $stid = oci_parse($this->conexion, "update GUTY17.$tabla set titulo='$argumentos[1]',autor='$argumentos[2]',numpag='$argumentos[3]' where libro=$argumentos[0] ");
         }
         if ($tabla == "socio") {
-            $stid = oci_parse($this->conexion, "update $tabla set nombre='$argumentos[1]',telefono='$argumentos[2]',ingreso=to_date('$argumentos[3]','dd/mm/yyyy') where socio=$argumentos[0]");
+            $stid = oci_parse($this->conexion, "update GUTY17.$tabla set nombre='$argumentos[1]',telefono='$argumentos[2]',ingreso=to_date('$argumentos[3]','dd/mm/yyyy') where socio=$argumentos[0]");
         }
         if ($tabla == "prestamo") {
-            $stid = oci_parse($this->conexion, "update $tabla set fprestamo=to_date('$argumentos[2]','dd/mm/yyyy'),fdevolucion=to_date('$argumentos[3]','dd/mm/yyyy') where libro=$argumentos[0] and socio=$argumentos[1]");
+            $stid = oci_parse($this->conexion, "update GUTY17.$tabla set fprestamo=to_date('$argumentos[2]','dd/mm/yyyy'),fdevolucion=to_date('$argumentos[3]','dd/mm/yyyy') where libro=$argumentos[0] and socio=$argumentos[1]");
         }
 
         $consulta = $this->Consulta($tabla);
@@ -135,7 +145,7 @@ class Conexion
     //consulta
     private function Consulta($NTabla)
     {
-        $consulta = oci_parse($this->conexion, "select * from $NTabla");
+        $consulta = oci_parse($this->conexion, "select * from GUTY17.$NTabla");
         oci_execute($consulta);
         return $consulta;
     }
@@ -145,24 +155,23 @@ class Conexion
     }
 
     public function getSocios(){
-    	return oci_parse($this->conexion,'SELECT * FROM socio order by socio');
+    	return oci_parse($this->conexion,'SELECT * FROM GUTY17.socio order by socio');
     }
 
     public function buscarSocios($busqueda) {
-    	return oci_parse($this->conexion,"select * from socio where UPPER(nombre) LIKE UPPER('$busqueda')");
+    	return oci_parse($this->conexion,"select * from GUTY17.socio where UPPER(nombre) LIKE UPPER('$busqueda')");
     }
 
 }
 
 $conn = Conexion::getInstance()->getConexion();
-session_start();
-$inactivo           = 60;
+$inactivo           = 10;
 $_SESSION['tiempo'] = time();
 if (isset($_SESSION['tiempo'])) {
     $vida_sesion = time() - $_SESSION['tiempo'];
     if ($vida_sesion > $inactivo) {
         session_destroy(oci_close($conn));
-        header("Location: index.php");
+        header("Location: login.php");
     }
 }
 
